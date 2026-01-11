@@ -7,7 +7,7 @@ public:
         int E= flights.size();
 
         vector<vector<pair<int,int>>>adj(n);
-        vector<int>cost(n,1e9);
+        vector<vector<int>>cost(n,vector<int>(k+1,1e8));
 
         for(int i=0;i<E;i++){
             adj[flights[i][0]].push_back({flights[i][1],flights[i][2]});
@@ -19,7 +19,7 @@ public:
         greater<pair<int,pair<int,int>>> >pq;  // cost,stops,node
 
         pq.push({0,{0,src}});
-        cost[src]=0;
+        cost[src][0]=0;
 
         while(!pq.empty()){
             int c = pq.top().first;
@@ -29,17 +29,21 @@ public:
             pq.pop();
 
             if(stops > k) continue;
-            if(c > cost[curr]) continue;
+            if(c > cost[curr][stops]) continue;
 
             for(auto &[x,y] : adj[curr]){
-                if(cost[x] > (c+y)){
-                    cost[x]=c+y;
-                    pq.push({cost[x],{stops+1,x}});
+                if(cost[x][stops+1] > (c+y)){
+                    cost[x][stops+1] = c+y;
+                    pq.push({cost[x][stops+1],{stops+1,x}});
                 }
             }
         }
+        int ans=1e8;
+        for(int i=0;i<k;i++){
+            ans=min(ans,cost[dst][i]);
+        }
 
-        return (cost[dst] != 1e9)? cost[dst]:-1;
+        return (ans != 1e9)? ans:-1;        
         
 
     }
