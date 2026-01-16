@@ -1,1 +1,1 @@
-cout<<num<<" "<<i<<" "<<hash[i]<<" "<<hash[n/i]<<" "<<'\n';
+cin >> t;
