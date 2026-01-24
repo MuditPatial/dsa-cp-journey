@@ -28,8 +28,17 @@ int main(){
             continue;
         }
 
+        int mid = (k)/2;
 
-        
+        long long ans=0;
+
+        for(int i=0;i<k;i++){
+            ans+= abs(1LL*pos[mid]-pos[i])-abs(mid-i);
+        }
+
+        cout<<ans<<'\n';
+
+
         
     }
 
