@@ -6,44 +6,46 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        int n;
+        int n ;
         cin>>n;
 
-        int ans=0;
-        vector<int>vec(n),preXor(n+1,0);
+        vector<int>a(n);
+        int xAll=0;
+
         for(int i=0;i<n;i++){
-            int x;
-            cin>>x;
-            vec[i]=x;
-            
+            cin>>a[i];
+            xAll^=a[i];
         }
-        for(int i=1;i<=n;i++){
-            preXor[i]=preXor[i-1]^vec[i-1];
-        }
-        if(preXor[n]==0){
+
+        if(xAll ==0){
             cout<<"YES \n";
             continue;
         }
+
+        int x=0;
+        int idx=-1;
+        int cnt=0;
         bool cond =false;
+        vector<int>pref(n+1,0);
+        
+        for(int i=1;i<=n;i++){
+            pref[i]=pref[i-1]^a[i-1];
+        }
+
         for(int i=0;i<n;i++){
-            int st=i,end=i;
-            while(end<n && vec[st]==vec[end]){
-                end++;
-            }
-            int x1 = preXor[st];
-            int x2 = preXor[n]^preXor[end];
-            int x3 = vec[st];
-
-            
-
-            if( (st==0 && end==n) || (x1==x2 && x2==x3)){
+            x^=a[i];
+            if(x==xAll && (pref[n]^pref[i+1]) == xAll){
                 cout<<"YES \n";
                 cond=true;
                 break;
             }
-            
-            i=end;
+            else if(x==xAll){
+                cnt++;
+                idx=i;
+                x=0;
+            }
         }
+
         if(!cond) cout<<"NO \n";
         
 

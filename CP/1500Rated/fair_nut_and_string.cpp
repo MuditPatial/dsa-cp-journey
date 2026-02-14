@@ -25,9 +25,5 @@ int main(){
     cout<<prod<<'\n';
     
 
-
-
-
-
     return 0;
 }

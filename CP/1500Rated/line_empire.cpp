@@ -1,36 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 
-int main(){
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     int t;
     cin >> t;
-    while(t--){
-        int n,h,l;
-        cin>>n>>h>>l;
+    while(t--) {
+        int n;
+        ll a, b;
+        cin >> n >> a >> b;
 
-        vector<int>vec(n);
-        int lessH=0,lessL=0;
-        if(h<l) swap(h,l);
-        for(int i=0;i<n;i++){
-            cin>>vec[i];
-            if(vec[i]<=h)lessH++;
-            if(vec[i]<=l)lessL++;
+        vector<ll> x(n+1), pref(n+1);
+        x[0] = 0;
+
+        for(int i = 1; i <= n; i++)
+            cin >> x[i];
+
+        partial_sum(x.begin(), x.end(), pref.begin());
+
+        ll ans = (ll)4e18;
+
+        for(int i = 0; i <= n; i++) {
+            ll cost =(a+b) * x[i] + b * (pref[n] - pref[i] - (n-i)*x[i]);
+
+            ans = min(ans, cost);
         }
 
-        if(h==l || lessH == lessL){
-            cout<<lessH/2<<'\n';
-        }
-        else{
-            if(lessL < lessH-lessL){
-                cout<<lessL<<'\n';
-            }
-            else{
-                cout<<lessH/2<<'\n';
-            }
-        }
-
+        cout << ans << "\n";
     }
 }
